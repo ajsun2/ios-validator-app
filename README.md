@@ -4,7 +4,7 @@ Built off Auth0 Swift Samples
 
 
 
-**Progress report: **
+** Progress report: **
 
 Week 1 (4/1 - 4/7): 
 - Set up auth0 swift sample with personal tenant (kevin-chen-development)
