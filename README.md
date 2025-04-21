@@ -1,4 +1,8 @@
-# Auth0 Swift Samples
+# Validator App (ios) 
+
+Built off Auth0 Swift Samples
+
+# Original read me: 
 
 This is the sample application for the [Auth0 Swift Quickstart](https://auth0.com/docs/quickstart/native/ios-swift) using the [Auth0.swift](https://github.com/auth0/Auth0.swift) SDK. The sample source code can be found in the [Sample-01 directory](Sample-01).
 
