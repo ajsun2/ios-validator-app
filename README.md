@@ -10,7 +10,7 @@ Built off Auth0 Swift Samples
 - Set up auth0 swift sample with personal tenant (kevin-chen-development)
 
 ### Week 2 (4/8-4/24):
-- Began creating individual/organization sign-up forms
+- Built basic UI template for individual/organization sign-up
 
 ### Week 3 (4/15-4/21):
 - Cleaned up app UI
