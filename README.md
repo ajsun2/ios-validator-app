@@ -18,3 +18,9 @@ Built off Auth0 Swift Samples
   - Organization sign-up form customized to each specialty 
 - Manage user authorization (user must have admin role to fully sign in)
 
+
+Features TBB (to be built): 
+- create local storage to track sign ups within the ios app
+- retrieve data to display in admin dashboard (individual and organization)
+- connect sign up with auth0 tenant
+- integrate app with database that can be shared across all platforms (web app, android, ios)
