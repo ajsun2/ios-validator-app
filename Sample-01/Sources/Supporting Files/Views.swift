@@ -11,7 +11,7 @@ struct HeroView: View {
             .frame(width: 25, height: 28, alignment: .center)
             .padding(.top, 8)
         VStack(alignment: .leading, spacing: -32) {
-            Text("Swift")
+            Text("Validator")
                 .tracking(self.tracking)
                 .foregroundStyle(
                     .linearGradient(
@@ -19,10 +19,10 @@ struct HeroView: View {
                       startPoint: .topLeading,
                       endPoint: .bottomTrailing
                     ))
-            Text("Sample")
-                .tracking(self.tracking)
             Text("App")
                 .tracking(self.tracking)
+//            Text("App")
+//                .tracking(self.tracking)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .font(.custom("SpaceGrotesk-Medium", size: 80))
@@ -84,9 +84,9 @@ struct PrimaryButtonStyle: ButtonStyle {
         configuration.label
             .font(.system(size: 14, weight: .semibold))
             .padding(.init(top: self.padding,
-                           leading: self.padding * 6,
+                           leading: self.padding * 5,
                            bottom: self.padding,
-                           trailing: self.padding * 6))
+                           trailing: self.padding * 5))
             .background(Color.black)
             .foregroundColor(.white)
             .clipShape(RoundedRectangle(cornerRadius: 8))

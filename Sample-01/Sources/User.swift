@@ -7,6 +7,8 @@ struct User {
     let emailVerified: String
     let picture: String
     let updatedAt: String
+    let roles: [String]
+    
 }
 
 extension User {
@@ -17,10 +19,13 @@ extension User {
               let email = jwt["email"].string,
               let emailVerified = jwt["email_verified"].boolean,
               let picture = jwt["picture"].string,
-              let updatedAt = jwt["updated_at"].string else {
+              let updatedAt = jwt["updated_at"].string
+        else {
             return nil
         }
         self.id = id
+//        self.id = jwt.claim(name: "sub").string ?? "unknown"
+        self.roles = jwt.claim(name: "custom_roles").array ?? []
         self.name = name
         self.email = email
         self.emailVerified = String(describing: emailVerified)
