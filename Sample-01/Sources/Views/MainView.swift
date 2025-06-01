@@ -19,7 +19,7 @@ struct MainView: View {
                 NavigationView {
                     VStack {
                         HeroView()
-                        Button("Admin Login", action: self.login)
+//                        Button("Admin Login", action: self.login)
                         
                         NavigationLink(destination: IndividualSignUpView()) {
                             Text("Individual Sign Up")

@@ -23,9 +23,12 @@
 		5CDD8867277102DC00052307 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CDD8856277102DA00052307 /* MainView.swift */; };
 		5CDD8869277102DC00052307 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5CDD8857277102DC00052307 /* Assets.xcassets */; };
 		D569776D278D97D3008E6498 /* SpaceGrotesk.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D569776C278D97D3008E6498 /* SpaceGrotesk.ttf */; };
+		FD2576682DDCE1E000D02C20 /* Validator.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD2576672DDCE1E000D02C20 /* Validator.swift */; };
+		FD25766C2DDCF49200D02C20 /* SignupSucessView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD25766B2DDCF49200D02C20 /* SignupSucessView.swift */; };
 		FD62D2B32DB6EAF8002409FE /* AdminDashboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD62D2B22DB6EAF8002409FE /* AdminDashboardView.swift */; };
 		FD62D2B52DB6F676002409FE /* IndvDashboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD62D2B42DB6F676002409FE /* IndvDashboardView.swift */; };
 		FD62D2B72DB6F68F002409FE /* OrgDashboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD62D2B62DB6F68F002409FE /* OrgDashboardView.swift */; };
+		FD62D2BC2DB99BF7002409FE /* SubmitSignup.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD62D2BB2DB99BF7002409FE /* SubmitSignup.swift */; };
 		FDCE6E292DA60EBD00E06947 /* IndividualSignUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDCE6E282DA60EBD00E06947 /* IndividualSignUpView.swift */; };
 		FDCE6E312DAD8A6A00E06947 /* OrgSignUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDCE6E302DAD8A6A00E06947 /* OrgSignUpView.swift */; };
 /* End PBXBuildFile section */
@@ -73,9 +76,12 @@
 		FD0C2C0B2D9E0DBB0092B323 /* SwiftSampleUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftSampleUITests.swift; sourceTree = "<group>"; };
 		FD0C2C0D2D9E0DBB0092B323 /* SwiftSampleUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftSampleUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		FD0C2C182D9E14430092B323 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		FD2576672DDCE1E000D02C20 /* Validator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Validator.swift; sourceTree = "<group>"; };
+		FD25766B2DDCF49200D02C20 /* SignupSucessView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignupSucessView.swift; sourceTree = "<group>"; };
 		FD62D2B22DB6EAF8002409FE /* AdminDashboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdminDashboardView.swift; sourceTree = "<group>"; };
 		FD62D2B42DB6F676002409FE /* IndvDashboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IndvDashboardView.swift; sourceTree = "<group>"; };
 		FD62D2B62DB6F68F002409FE /* OrgDashboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrgDashboardView.swift; sourceTree = "<group>"; };
+		FD62D2BB2DB99BF7002409FE /* SubmitSignup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SubmitSignup.swift; path = Sources/Network/SubmitSignup.swift; sourceTree = SOURCE_ROOT; };
 		FDCE6E282DA60EBD00E06947 /* IndividualSignUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IndividualSignUpView.swift; sourceTree = "<group>"; };
 		FDCE6E2F2DA6185800E06947 /* SwiftSample (iOS).entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.entitlements; path = "SwiftSample (iOS).entitlements"; sourceTree = "<group>"; };
 		FDCE6E302DAD8A6A00E06947 /* OrgSignUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrgSignUpView.swift; sourceTree = "<group>"; };
@@ -111,6 +117,7 @@
 		5C5DBE8A277217D800E19935 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
+				FD62D2BA2DB99BC8002409FE /* Network */,
 				FDCE6E2E2DA6161100E06947 /* Views */,
 				5C78D9BF2774093F000B4B71 /* Supporting Files */,
 				5C6537262772F5EE0035759D /* User.swift */,
@@ -135,6 +142,7 @@
 				5CDD8855277102DA00052307 /* App.swift */,
 				5C78D9C027740963000B4B71 /* Views.swift */,
 				5CDD8857277102DC00052307 /* Assets.xcassets */,
+				FD2576672DDCE1E000D02C20 /* Validator.swift */,
 			);
 			path = "Supporting Files";
 			sourceTree = "<group>";
@@ -235,6 +243,14 @@
 			path = SwiftSampleUITests;
 			sourceTree = "<group>";
 		};
+		FD62D2BA2DB99BC8002409FE /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				FD62D2BB2DB99BF7002409FE /* SubmitSignup.swift */,
+			);
+			path = Network;
+			sourceTree = "<group>";
+		};
 		FDCE6E2E2DA6161100E06947 /* Views */ = {
 			isa = PBXGroup;
 			children = (
@@ -245,6 +261,7 @@
 				FD62D2B22DB6EAF8002409FE /* AdminDashboardView.swift */,
 				FD62D2B42DB6F676002409FE /* IndvDashboardView.swift */,
 				FD62D2B62DB6F68F002409FE /* OrgDashboardView.swift */,
+				FD25766B2DDCF49200D02C20 /* SignupSucessView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -434,13 +451,16 @@
 			buildActionMask = 2147483647;
 			files = (
 				5CDD8867277102DC00052307 /* MainView.swift in Sources */,
+				FD25766C2DDCF49200D02C20 /* SignupSucessView.swift in Sources */,
 				5C78D9C127740963000B4B71 /* Views.swift in Sources */,
 				FD62D2B52DB6F676002409FE /* IndvDashboardView.swift in Sources */,
 				FDCE6E292DA60EBD00E06947 /* IndividualSignUpView.swift in Sources */,
+				FD2576682DDCE1E000D02C20 /* Validator.swift in Sources */,
 				FDCE6E312DAD8A6A00E06947 /* OrgSignUpView.swift in Sources */,
 				5C6537272772F5EE0035759D /* User.swift in Sources */,
 				FD62D2B72DB6F68F002409FE /* OrgDashboardView.swift in Sources */,
 				5C6537242772F5D90035759D /* ProfileView.swift in Sources */,
+				FD62D2BC2DB99BF7002409FE /* SubmitSignup.swift in Sources */,
 				5CDD8865277102DC00052307 /* App.swift in Sources */,
 				FD62D2B32DB6EAF8002409FE /* AdminDashboardView.swift in Sources */,
 			);
