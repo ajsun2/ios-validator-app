@@ -37,9 +37,12 @@ Built off Auth0 Swift Samples
 ### Week 9 (5/27-6/2):
 - Applied consistent form design to both sign up pages (individual and orgnanization)
 - Redirect user to main page after successful form submission
+- TODO: Polish endpoint implementation for address validation (webapp) and test
 - TODO: Check details to ensure instructions and feedback is thorough
-- TODO: Confirm page redirection works properly from both sign ups
 - TODO: Update README to include app set up instructions
+- TODO: Phone number validation?
+
+###
 
 Features TBB (to be built): 
 - create local storage to track sign ups within the ios app --> unnecessary once kevin finishes his db implementation
