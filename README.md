@@ -37,10 +37,12 @@ Built off Auth0 Swift Samples
 ### Week 9 (5/27-6/2):
 - Applied consistent form design to both sign up pages (individual and orgnanization)
 - Redirect user to main page after successful form submission
-- TODO: Polish endpoint implementation for address validation (webapp) and test
+- WIP: Finish error message for required fields on all org sign up forms 
+- WIP: Address validation (webapp) and test
 - TODO: Check details to ensure instructions and feedback is thorough
 - TODO: Update README to include app set up instructions
 - TODO: Phone number validation?
+- TODO: reset field errors when upon reselecting org types
 
 ###
 
