@@ -8,7 +8,17 @@ struct OrgSignUpView: View {
     @State private var fein = ""
     @State private var address = ""
     @State private var city = ""
-    @State private var state = ""
+    @State private var internalState: String = ""
+    @State private var state: String? = nil
+    
+    let states = [
+            "AL", "AK", "AZ", "AR", "CA", "CO", "CT", "DE", "FL", "GA",
+            "HI", "ID", "IL", "IN", "IA", "KS", "KY", "LA", "ME", "MD",
+            "MA", "MI", "MN", "MS", "MO", "MT", "NE", "NV", "NH", "NJ",
+            "NM", "NY", "NC", "ND", "OH", "OK", "OR", "PA", "RI", "SC",
+            "SD", "TN", "TX", "UT", "VT", "VA", "WA", "WV", "WI", "WY"
+        ]
+    
     @State private var zipcode = ""
     @State private var taxID = ""
     @State private var phone = ""
@@ -19,8 +29,16 @@ struct OrgSignUpView: View {
     @State private var bureau = ""
     @State private var stateDeptID = ""
     @State private var showSuccessScreen = false
+    
+    // Org specific fields
+    @State private var npiError: String?
+    @State private var feinError: String?
+    @State private var taxIDError: String?
+    @State private var orgCodeError: String?
+    @State private var bureauError: String?
+    @State private var stateDeptIDError: String?
 
-    // Field-specific errors
+    // General fields
     @State private var orgNameError: String?
     @State private var emailError: String?
     @State private var passwordError: String?
@@ -29,6 +47,9 @@ struct OrgSignUpView: View {
     @State private var cityError: String?
     @State private var stateError: String?
     @State private var zipError: String?
+    
+    @State private var validationError: String?
+    
 
     var body: some View {
         ZStack {
@@ -63,6 +84,9 @@ struct OrgSignUpView: View {
                                 Text("Other (Non-Profit)").tag(Optional(Specialty.otherNP))
                             }
                             .pickerStyle(MenuPickerStyle())
+                            .onChange(of: specialty) { _ in
+                                clearFieldErrors()
+                            }
                         }
 
                         if let selection = specialty {
@@ -71,45 +95,72 @@ struct OrgSignUpView: View {
                                 labeledField(label: "National Provider Identifier (NPI)", isRequired: true) {
                                     TextField("", text: $npi)
                                         .textFieldStyle(RoundedBorderTextFieldStyle())
-                                        .onChange(of: npi) { newValue in npi = formatNPIInput(newValue) }
+                                        .onChange(of: npi) { newValue in
+                                            npi = formatNPIInput(newValue)
+                                            npiError = nil
+                                        }
                                 }
+                                if let error = npiError { errorText(error) }
+
                                 labeledField(label: "Federal Employer Identification Number (FEIN)", isRequired: true) {
                                     TextField("", text: $fein)
                                         .textFieldStyle(RoundedBorderTextFieldStyle())
-                                        .onChange(of: fein) { newValue in fein = formatFEINInput(newValue) }
+                                        .onChange(of: fein) { newValue in
+                                            fein = formatFEINInput(newValue)
+                                            feinError = nil
+                                        }
                                 }
+                                if let error = feinError { errorText(error) }
+
                                 labeledField(label: "State Tax ID", isRequired: true) {
                                     TextField("", text: $taxID)
                                         .textFieldStyle(RoundedBorderTextFieldStyle())
-                                        .onChange(of: taxID) { newValue in taxID = formatTaxIDInput(newValue) }
+                                        .onChange(of: taxID) { newValue in
+                                            taxID = formatTaxIDInput(newValue)
+                                            taxIDError = nil
+                                        }
                                 }
+                                if let error = taxIDError { errorText(error) }
 
                             case .federalAgency:
                                 labeledField(label: "Organization Code", isRequired: true) {
                                     TextField("", text: $orgCode)
                                         .textFieldStyle(RoundedBorderTextFieldStyle())
+                                        .onChange(of: orgCode) { _ in orgCodeError = nil }
                                 }
+                                if let error = orgCodeError { errorText(error) }
+
                                 labeledField(label: "Bureau Name", isRequired: true) {
                                     TextField("", text: $bureau)
                                         .textFieldStyle(RoundedBorderTextFieldStyle())
+                                        .onChange(of: bureau) { _ in bureauError = nil }
                                 }
+                                if let error = bureauError { errorText(error) }
 
                             case .stateAgency, .municipalAgency:
                                 labeledField(label: "Federal Employer Identification Number (FEIN)", isRequired: true) {
                                     TextField("", text: $fein)
                                         .textFieldStyle(RoundedBorderTextFieldStyle())
-                                        .onChange(of: fein) { newValue in fein = formatFEINInput(newValue) }
+                                        .onChange(of: fein) { newValue in
+                                            fein = formatFEINInput(newValue)
+                                            feinError = nil
+                                        }
                                 }
+                                if let error = feinError { errorText(error) }
+
                                 labeledField(label: "State Department ID", isRequired: true) {
                                     TextField("", text: $stateDeptID)
                                         .textFieldStyle(RoundedBorderTextFieldStyle())
+                                        .onChange(of: stateDeptID) { _ in stateDeptIDError = nil }
                                 }
+                                if let error = stateDeptIDError { errorText(error) }
 
                             case .commercialFP, .otherNP:
                                 labeledField(label: "Federal Employer Identification Number (FEIN)", isRequired: true) {
                                     TextField("", text: $fein)
                                         .textFieldStyle(RoundedBorderTextFieldStyle())
                                         .onChange(of: fein) { newValue in fein = formatFEINInput(newValue) }
+                                    // add error notification
                                 }
                             }
                         }
@@ -151,9 +202,21 @@ struct OrgSignUpView: View {
                         }
 
                         labeledField(label: "State", isRequired: true) {
-                            TextField("", text: $state).onChange(of: state) { _ in stateError = nil }
-                                .textFieldStyle(RoundedBorderTextFieldStyle())
-                            if let error = stateError { errorText(error) }
+                            Picker("Select your state", selection: $state) {
+                                Text("Select a state").tag(Optional<String>.none) // placeholder
+                                ForEach(states, id: \.self) { stateOption in
+                                    Text(stateOption).tag(Optional(stateOption))
+                                }
+                            }
+                            .pickerStyle(.menu)
+                            .foregroundColor(state == nil ? .gray : .primary)
+                            .onChange(of: state) { _ in
+                                stateError = nil
+                            }
+
+                            if let error = stateError {
+                                errorText(error)
+                            }
                         }
 
                         labeledField(label: "Zipcode", isRequired: true) {
@@ -171,6 +234,12 @@ struct OrgSignUpView: View {
                             TextField("", text: $phone)
                                 .textFieldStyle(RoundedBorderTextFieldStyle())
                                 .onChange(of: phone) { newValue in phone = formatPhoneInput(newValue) }
+                        }
+                        
+                        if let error = validationError {
+                            Text(error)
+                                .foregroundColor(.red)
+                                .padding()
                         }
 
                         HStack {
@@ -203,6 +272,23 @@ struct OrgSignUpView: View {
         Text(message)
             .font(.caption)
             .foregroundColor(.red)
+    }
+        
+    func clearFieldErrors() {
+        orgNameError = nil
+        emailError = nil
+        passwordError = nil
+        usernameError = nil
+        addressError = nil
+        cityError = nil
+        stateError = nil
+        zipError = nil
+        npiError = nil
+        feinError = nil
+        taxIDError = nil
+        orgCodeError = nil
+        bureauError = nil
+        stateDeptIDError = nil
     }
 
     func formatZipcodeInput(_ value: String) -> String {
@@ -247,15 +333,22 @@ struct OrgSignUpView: View {
     }
 
     func submit() {
-        orgNameError = nil
-        emailError = nil
-        passwordError = nil
-        usernameError = nil
-        addressError = nil
-        cityError = nil
-        stateError = nil
-        zipError = nil
-
+//        orgNameError = nil
+//        emailError = nil
+//        passwordError = nil
+//        usernameError = nil
+//        addressError = nil
+//        cityError = nil
+//        stateError = nil
+//        zipError = nil
+//        npiError = nil
+//        feinError = nil
+//        taxIDError = nil
+//        orgCodeError = nil
+//        bureauError = nil
+//        stateDeptIDError = nil
+        clearFieldErrors()
+        
         if !Validator.isNonEmpty(orgName) {
             orgNameError = "Organization Name is required."
         }
@@ -286,11 +379,55 @@ struct OrgSignUpView: View {
         } else if !Validator.isValidZipCode(zipcode) {
             zipError = "Zipcode must be 5 digits."
         }
+        
+        if let selection = specialty {
+            switch selection {
+            case .healthcareFP, .healthcareNP:
+                if !Validator.isNonEmpty(npi) {
+                    npiError = "NPI is required."
+                } else if npi.count != 10 {
+                    npiError = "NPI must be 10 digits."
+                }
+
+                if !Validator.isNonEmpty(fein) {
+                    feinError = "FEIN is required."
+                }
+
+                if !Validator.isNonEmpty(taxID) {
+                    taxIDError = "State Tax ID is required."
+                }
+
+            case .federalAgency:
+                if !Validator.isNonEmpty(orgCode) {
+                    orgCodeError = "Organization Code is required."
+                }
+
+                if !Validator.isNonEmpty(bureau) {
+                    bureauError = "Bureau Name is required."
+                }
+
+            case .stateAgency, .municipalAgency:
+                if !Validator.isNonEmpty(fein) {
+                    feinError = "FEIN is required."
+                }
+
+                if !Validator.isNonEmpty(stateDeptID) {
+                    stateDeptIDError = "State Department ID is required."
+                }
+
+            case .commercialFP, .otherNP:
+                if !Validator.isNonEmpty(fein) {
+                    feinError = "FEIN is required."
+                }
+            }
+        }
 
         let anyError = [
             orgNameError, emailError, passwordError, usernameError,
-            addressError, cityError, stateError, zipError
+            addressError, cityError, stateError, zipError,
+            npiError, feinError, taxIDError, orgCodeError, bureauError, stateDeptIDError
         ].contains { $0 != nil }
+
 
         if !anyError {
             var formData: [String: String] = [
@@ -302,7 +439,7 @@ struct OrgSignUpView: View {
                 "password": password,
                 "address_line_1": address,
                 "city": city,
-                "state": state,
+                "state": state ?? "",
                 "zipcode": zipcode
             ]
 
@@ -327,13 +464,31 @@ struct OrgSignUpView: View {
 
             Task {
                 do {
-                    let result = try await SubmitSignup.submit(formData: payload)
-                    print(result)
-                    showSuccessScreen = true
+                    let isValidAddress = try await ValidateAddress.validate(
+                        address: address,
+                        city: city,
+                        zipcode: zipcode,
+                        state: state ?? ""
+                    )
+
+                    if isValidAddress {
+                    //comment back above block back in for address validation
+                        let result = try await SubmitSignup.submit(formData: payload)
+                        print(result)
+                        showSuccessScreen = true
+                    } else {
+                        addressError = "Invalid address"
+                        cityError = "Invalid city"
+                        zipError = "Invalid zipcode"
+//                        validationError = "Please correct the address fields."
+                    }
+                    //comment back above block back in for address validation
                 } catch {
-                    emailError = "Unable to sign up – \(error.localizedDescription)"
+                    validationError = "Unable to sign up - \(error.localizedDescription)"
                 }
             }
+        } else {
+            validationError = "Please correct the highlighted fields."
         }
     }
 }

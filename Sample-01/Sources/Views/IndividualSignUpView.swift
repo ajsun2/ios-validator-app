@@ -12,7 +12,16 @@ struct IndividualSignUpView: View {
     @State private var birthday = Date()
     @State private var address = ""
     @State private var city = ""
-    @State private var state = ""
+    @State private var internalState: String = ""
+    @State private var state: String? = nil
+    
+    let states = [
+            "AL", "AK", "AZ", "AR", "CA", "CO", "CT", "DE", "FL", "GA",
+            "HI", "ID", "IL", "IN", "IA", "KS", "KY", "LA", "ME", "MD",
+            "MA", "MI", "MN", "MS", "MO", "MT", "NE", "NV", "NH", "NJ",
+            "NM", "NY", "NC", "ND", "OH", "OK", "OR", "PA", "RI", "SC",
+            "SD", "TN", "TX", "UT", "VT", "VA", "WA", "WV", "WI", "WY"
+        ]
     @State private var zipcode = ""
 
     @State private var emailError: String?
@@ -133,11 +142,29 @@ struct IndividualSignUpView: View {
                             }
 
                             labeledField(label: "State", isRequired: true) {
-                                TextField("", text: $state)
-                                    .textFieldStyle(RoundedBorderTextFieldStyle())
-                            }
-                            if let error = stateError {
-                                errorText(error)
+                                Picker("Select your state", selection: $state) {
+                                    Text("Select a state").tag(Optional<String>.none) // placeholder
+                                    ForEach(states, id: \.self) { stateOption in
+                                        Text(stateOption).tag(Optional(stateOption))
+                                    }
+                                }
+                                .pickerStyle(.menu)
+                                .foregroundColor(state == nil ? .gray : .primary)
+                                .onChange(of: state) { _ in
+                                    stateError = nil
+                                }
+                                    
+
+                                if let error = stateError {
+                                    errorText(error)
+                                }
+//                            }
+//                            labeledField(label: "State", isRequired: true) {
+//                                TextField("", text: $state)
+//                                    .textFieldStyle(RoundedBorderTextFieldStyle())
+//                            }
+//                            if let error = stateError {
+//                                errorText(error)
                             }
 
                             labeledField(label: "Zipcode", isRequired: true) {
@@ -214,6 +241,10 @@ struct IndividualSignUpView: View {
         }
         return result
     }
+    
+//    struct ValidationResponse: Decodable {
+//        let valid: Bool
+//    }
 
     func submit() {
         emailError = nil; passwordError = nil; firstNameError = nil
@@ -288,15 +319,31 @@ struct IndividualSignUpView: View {
                 "password": password,
                 "address_line_1": address,
                 "city": city,
-                "state": state,
+                "state": state ?? "",
                 "zipcode": zipcode
             ]
 
             Task {
                 do {
-                    let result = try await SubmitSignup.submit(formData: formData)
-                    print(result)
-                    showSuccessScreen = true
+                    let isValidAddress = try await ValidateAddress.validate(
+                        address: address,
+                        city: city,
+                        zipcode: zipcode,
+                        state: state ?? ""
+                    )
+
+                    if isValidAddress {
+                    //comment back above block back in for address validation
+                        let result = try await SubmitSignup.submit(formData: formData)
+                        print(result)
+                        showSuccessScreen = true
+                    } else {
+                        addressError = "Invalid address"
+                        cityError = "Invalid city"
+                        zipError = "Invalid zipcode"
+//                        validationError = "Please correct the address fields."
+                    }
+                    //comment back above block back in for address validation
                 } catch {
                     validationError = "Unable to sign up - \(error.localizedDescription)"
                 }

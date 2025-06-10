@@ -29,6 +29,7 @@
 		FD62D2B52DB6F676002409FE /* IndvDashboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD62D2B42DB6F676002409FE /* IndvDashboardView.swift */; };
 		FD62D2B72DB6F68F002409FE /* OrgDashboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD62D2B62DB6F68F002409FE /* OrgDashboardView.swift */; };
 		FD62D2BC2DB99BF7002409FE /* SubmitSignup.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD62D2BB2DB99BF7002409FE /* SubmitSignup.swift */; };
+		FDBB30702DEF72A800304E02 /* ValidateAddress.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDBB306F2DEF72A800304E02 /* ValidateAddress.swift */; };
 		FDCE6E292DA60EBD00E06947 /* IndividualSignUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDCE6E282DA60EBD00E06947 /* IndividualSignUpView.swift */; };
 		FDCE6E312DAD8A6A00E06947 /* OrgSignUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDCE6E302DAD8A6A00E06947 /* OrgSignUpView.swift */; };
 /* End PBXBuildFile section */
@@ -82,6 +83,7 @@
 		FD62D2B42DB6F676002409FE /* IndvDashboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IndvDashboardView.swift; sourceTree = "<group>"; };
 		FD62D2B62DB6F68F002409FE /* OrgDashboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrgDashboardView.swift; sourceTree = "<group>"; };
 		FD62D2BB2DB99BF7002409FE /* SubmitSignup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SubmitSignup.swift; path = Sources/Network/SubmitSignup.swift; sourceTree = SOURCE_ROOT; };
+		FDBB306F2DEF72A800304E02 /* ValidateAddress.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValidateAddress.swift; sourceTree = "<group>"; };
 		FDCE6E282DA60EBD00E06947 /* IndividualSignUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IndividualSignUpView.swift; sourceTree = "<group>"; };
 		FDCE6E2F2DA6185800E06947 /* SwiftSample (iOS).entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.entitlements; path = "SwiftSample (iOS).entitlements"; sourceTree = "<group>"; };
 		FDCE6E302DAD8A6A00E06947 /* OrgSignUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrgSignUpView.swift; sourceTree = "<group>"; };
@@ -247,6 +249,7 @@
 			isa = PBXGroup;
 			children = (
 				FD62D2BB2DB99BF7002409FE /* SubmitSignup.swift */,
+				FDBB306F2DEF72A800304E02 /* ValidateAddress.swift */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -456,6 +459,7 @@
 				FD62D2B52DB6F676002409FE /* IndvDashboardView.swift in Sources */,
 				FDCE6E292DA60EBD00E06947 /* IndividualSignUpView.swift in Sources */,
 				FD2576682DDCE1E000D02C20 /* Validator.swift in Sources */,
+				FDBB30702DEF72A800304E02 /* ValidateAddress.swift in Sources */,
 				FDCE6E312DAD8A6A00E06947 /* OrgSignUpView.swift in Sources */,
 				5C6537272772F5EE0035759D /* User.swift in Sources */,
 				FD62D2B72DB6F68F002409FE /* OrgDashboardView.swift in Sources */,
