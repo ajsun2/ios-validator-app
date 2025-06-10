@@ -47,6 +47,7 @@ Built off Auth0 Swift Samples
 ### Week 10 (6/3-5/9):
 - Implemented error message for org unique fields
 - Reset error messages when new org is selected, but retains the field data
+- Note: Double check state id field requirements (format varies by state, what should we enforce in the form?)
 - WIP: Address validation (webapp) and test
 - TODO: Check details to ensure instructions and feedback is thorough
 - TODO: Update README to include app set up instructions
