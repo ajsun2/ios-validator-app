@@ -37,25 +37,21 @@ Built off Auth0 Swift Samples
 ### Week 9 (5/27-6/2):
 - Applied consistent form design to both sign up pages (individual and orgnanization)
 - Redirect user to main page after successful form submission
-- WIP: Finish error message for required fields on all org sign up forms 
-- WIP: Address validation (webapp) and test
-- TODO: Check details to ensure instructions and feedback is thorough
-- TODO: Update README to include app set up instructions
-- TODO: Phone number validation?
-- TODO: reset field errors when upon reselecting org types
+- Created address validation endpoint in webapp
 
-### Week 10 (6/3-5/9):
+### Week 10 (6/3-6/9):
 - Implemented error message for org unique fields
-- Reset error messages when new org is selected, but retains the field data
-- Note: Double check state id field requirements (format varies by state, what should we enforce in the form?)
-- WIP: Address validation (webapp) and test
-- TODO: Check details to ensure instructions and feedback is thorough
+- Reset error messages when new org type is selected, but retains previous field data
+- Implemented address validation (mobile app calls web app endpoint)
+- Note: Double check state id field requirements (format varies by state, should permit alphanumeric up to 12 chars (?) [https://help.fingercheck.com/en/articles/6865999-state-tax-jurisdictions-and-proper-formats] )
+- Note: Missing format requirements:
+  - **State department id** in munipical and state org
+  - **Organization code** and **bureau name** in federal org
+ 
+### Week 11 (6/10-6/16):
+- TODO: Final detail check to ensure instructions and feedback is thorough
 - TODO: Update README to include app set up instructions
-- TODO: Phone number validation?
+- TODO: Phone number validation -- Check for valid area code? Allow foreign numbers?
+- TODO: Ensure data is stored correctly in the shared database between all validator app platforms
 
 ###
-
-Features TBB (to be built): 
-- create local storage to track sign ups within the ios app --> unnecessary once kevin finishes his db implementation
-- ~retrieve data to display in admin dashboard (individual and organization)~ admin dashboard has been removed
-- integrate app with database that can be shared across all platforms (web app, android, ios)
