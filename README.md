@@ -19,10 +19,10 @@ Built off Auth0 Swift Samples
 - Manage user authorization (user must have admin role to fully sign in)
 
 ### Week 4 (4/22-4/28):
-- 
+- (Not documented)
 
 ### Week 5 (4/29-5/5):
-- 
+- (Not documented)
 
 ### Week 6 (5/6-5/12):
 - Connected sign up forms to auth0, storing user metadata and creating their account
