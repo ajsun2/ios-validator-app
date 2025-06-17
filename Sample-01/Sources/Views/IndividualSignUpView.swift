@@ -58,6 +58,9 @@ struct IndividualSignUpView: View {
                                 TextField("", text: $email)
                                     .textFieldStyle(RoundedBorderTextFieldStyle())
                                     .autocapitalization(.none)
+                                    .onChange(of: email) { newValue in
+                                        email = formatEmailInput(newValue)
+                                    }
                             }
                             if let error = emailError {
                                 errorText(error)
@@ -79,6 +82,9 @@ struct IndividualSignUpView: View {
                             labeledField(label: "First name", isRequired: true) {
                                 TextField("", text: $firstName)
                                     .textFieldStyle(RoundedBorderTextFieldStyle())
+                                    .onChange(of: firstName) { newValue in
+                                        firstName = formatNameInput(newValue)
+                                    }
                             }
                             if let error = firstNameError {
                                 errorText(error)
@@ -87,11 +93,17 @@ struct IndividualSignUpView: View {
                             labeledField(label: "Middle name", isRequired: false) {
                                 TextField("", text: $middleName)
                                     .textFieldStyle(RoundedBorderTextFieldStyle())
+                                    .onChange(of: middleName) { newValue in
+                                        middleName = formatNameInput(newValue)
+                                    }
                             }
 
                             labeledField(label: "Last name", isRequired: true) {
                                 TextField("", text: $lastName)
                                     .textFieldStyle(RoundedBorderTextFieldStyle())
+                                    .onChange(of: lastName) { newValue in
+                                        lastName = formatNameInput(newValue)
+                                    }
                             }
                             if let error = lastNameError {
                                 errorText(error)
@@ -128,6 +140,9 @@ struct IndividualSignUpView: View {
                             labeledField(label: "Street Address", isRequired: true) {
                                 TextField("", text: $address)
                                     .textFieldStyle(RoundedBorderTextFieldStyle())
+                                    .onChange(of: address) { newValue in
+                                        address = formatAddressInput(newValue)
+                                    }
                             }
                             if let error = addressError {
                                 errorText(error)
@@ -136,6 +151,9 @@ struct IndividualSignUpView: View {
                             labeledField(label: "City", isRequired: true) {
                                 TextField("", text: $city)
                                     .textFieldStyle(RoundedBorderTextFieldStyle())
+                                    .onChange(of: city) { newValue in
+                                        city = formatCityInput(newValue)
+                                    }
                             }
                             if let error = cityError {
                                 errorText(error)
@@ -214,6 +232,16 @@ struct IndividualSignUpView: View {
             .font(.caption)
             .foregroundColor(.red)
     }
+    
+    func formatEmailInput(_ value: String) -> String {
+        let allowedChars = CharacterSet(charactersIn: "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.-_@")
+        return String(value.unicodeScalars.filter { allowedChars.contains($0) })
+    }
+    
+    func formatNameInput(_ value: String) -> String {
+        let allowedChars = CharacterSet.letters.union(.whitespaces).union(CharacterSet(charactersIn: "-'\u{2019}"))
+        return String(value.unicodeScalars.filter { allowedChars.contains($0) })
+    }
 
     func formatZipcodeInput(_ value: String) -> String {
         let digits = value.filter { $0.isNumber }
@@ -223,12 +251,32 @@ struct IndividualSignUpView: View {
     func formatPhoneInput(_ value: String) -> String {
         let digits = value.filter { $0.isNumber }
         let limited = String(digits.prefix(10))
-        var result = ""
-        for (index, char) in limited.enumerated() {
-            if index == 3 || index == 6 { result.append("-") }
-            result.append(char)
+        
+        switch limited.count {
+        case 0:
+            return ""
+        case 1...3:
+            return "(\(limited)"
+        case 4...6:
+            let area = limited.prefix(3)
+            let middle = limited.dropFirst(3)
+            return "(\(area)) \(middle)"
+        default:
+            let area = limited.prefix(3)
+            let middle = limited.dropFirst(3).prefix(3)
+            let last = limited.dropFirst(6)
+            return "(\(area)) \(middle)-\(last)"
         }
-        return result
+    }
+    
+    func formatAddressInput(_ value: String) -> String {
+        let allowedChars = CharacterSet.letters.union(.decimalDigits).union(.whitespaces).union(CharacterSet(charactersIn: "-"))
+        return String(value.unicodeScalars.filter { allowedChars.contains($0) })
+    }
+    
+    func formatCityInput(_ value: String) -> String {
+        let allowedChars = CharacterSet.letters.union(.whitespaces).union(CharacterSet(charactersIn: "-"))
+        return String(value.unicodeScalars.filter { allowedChars.contains($0) })
     }
 
     func formatSSNInput(_ value: String) -> String {
@@ -304,7 +352,7 @@ struct IndividualSignUpView: View {
 
         if !anyError {
             let dateFormatter = DateFormatter()
-            dateFormatter.dateFormat = "yyyy-MM-dd"
+            dateFormatter.dateFormat = "MM-dd-yyyy"
             let birthdayString = dateFormatter.string(from: birthday)
 
             let formData: [String: String] = [

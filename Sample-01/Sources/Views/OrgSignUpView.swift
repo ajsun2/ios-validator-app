@@ -47,6 +47,7 @@ struct OrgSignUpView: View {
     @State private var cityError: String?
     @State private var stateError: String?
     @State private var zipError: String?
+    @State private var phoneError: String?
     
     @State private var validationError: String?
     
@@ -70,6 +71,10 @@ struct OrgSignUpView: View {
                         labeledField(label: "Organization Name", isRequired: true) {
                             TextField("", text: $orgName).onChange(of: orgName) { _ in orgNameError = nil }
                                 .textFieldStyle(RoundedBorderTextFieldStyle())
+                                .onChange(of: orgName) { newValue in
+                                    orgName = formatNameInput(newValue)
+                                }
+
                             if let error = orgNameError { errorText(error) }
                         }
 
@@ -126,14 +131,18 @@ struct OrgSignUpView: View {
                                 labeledField(label: "Organization Code", isRequired: true) {
                                     TextField("", text: $orgCode)
                                         .textFieldStyle(RoundedBorderTextFieldStyle())
-                                        .onChange(of: orgCode) { _ in orgCodeError = nil }
+                                        .onChange(of: orgCode) { newValue in
+                                            orgCode = formatOrgCodeInput(newValue)
+                                            orgCodeError = nil }
                                 }
                                 if let error = orgCodeError { errorText(error) }
 
                                 labeledField(label: "Bureau Name", isRequired: true) {
                                     TextField("", text: $bureau)
                                         .textFieldStyle(RoundedBorderTextFieldStyle())
-                                        .onChange(of: bureau) { _ in bureauError = nil }
+                                        .onChange(of: bureau) { newValue in
+                                            bureau = formatBureauInput(newValue)
+                                            bureauError = nil }
                                 }
                                 if let error = bureauError { errorText(error) }
 
@@ -161,6 +170,7 @@ struct OrgSignUpView: View {
                                         .textFieldStyle(RoundedBorderTextFieldStyle())
                                         .onChange(of: fein) { newValue in fein = formatFEINInput(newValue) }
                                     // add error notification
+                                    if let error = feinError { errorText(error) }
                                 }
                             }
                         }
@@ -169,6 +179,8 @@ struct OrgSignUpView: View {
                             TextField("", text: $email).onChange(of: email) { _ in emailError = nil }
                                 .textFieldStyle(RoundedBorderTextFieldStyle())
                                 .autocapitalization(.none)
+                                .onChange(of: email) { newValue in
+                                    email = formatEmailInput(newValue)}
                             if let error = emailError { errorText(error) }
                         }
 
@@ -184,20 +196,34 @@ struct OrgSignUpView: View {
                         }
 
                         labeledField(label: "Representative Username", isRequired: true) {
-                            TextField("", text: $username).onChange(of: username) { _ in usernameError = nil }
-                                .textFieldStyle(RoundedBorderTextFieldStyle())
+                            
+                            VStack(alignment: .leading, spacing: 4) {
+                                TextField("", text: $username).onChange(of: username) { _ in usernameError = nil }
+                                    .textFieldStyle(RoundedBorderTextFieldStyle())
+                                    .onChange(of: username) { newValue in
+                                        username = formatUsernameInput(newValue)}
+                                Text("You may use letters, numbers, and up to one _ or @.")
+                                    .font(.caption)
+                                    .foregroundColor(.gray)
+                            }
+                            
+
                             if let error = usernameError { errorText(error) }
                         }
 
                         labeledField(label: "Organization Address Line 1", isRequired: true) {
                             TextField("", text: $address).onChange(of: address) { _ in addressError = nil }
                                 .textFieldStyle(RoundedBorderTextFieldStyle())
+                                .onChange(of: address) { newValue in
+                                    address = formatAddressInput(newValue)}
                             if let error = addressError { errorText(error) }
                         }
 
                         labeledField(label: "City", isRequired: true) {
                             TextField("", text: $city).onChange(of: city) { _ in cityError = nil }
                                 .textFieldStyle(RoundedBorderTextFieldStyle())
+                                .onChange(of: city) { newValue in
+                                    city = formatCityInput(newValue)}
                             if let error = cityError { errorText(error) }
                         }
 
@@ -230,10 +256,12 @@ struct OrgSignUpView: View {
                             if let error = zipError { errorText(error) }
                         }
 
-                        labeledField(label: "Organization Phone", isRequired: false) {
+                        labeledField(label: "Organization Phone", isRequired: true) {
                             TextField("", text: $phone)
                                 .textFieldStyle(RoundedBorderTextFieldStyle())
-                                .onChange(of: phone) { newValue in phone = formatPhoneInput(newValue) }
+                                .onChange(of: phone) { newValue in phone = formatPhoneInput(newValue)
+                                    phoneError = nil}
+                            if let error = phoneError { errorText(error) }
                         }
                         
                         if let error = validationError {
@@ -283,12 +311,28 @@ struct OrgSignUpView: View {
         cityError = nil
         stateError = nil
         zipError = nil
+        phoneError = nil
         npiError = nil
         feinError = nil
         taxIDError = nil
         orgCodeError = nil
         bureauError = nil
         stateDeptIDError = nil
+    }
+
+    func formatEmailInput(_ value: String) -> String {
+        let allowedChars = CharacterSet(charactersIn: "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.-_@")
+        return String(value.unicodeScalars.filter { allowedChars.contains($0) })
+    }
+    
+    func formatUsernameInput(_ value: String) -> String {
+        let allowedChars = CharacterSet(charactersIn: "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_@")
+        return String(value.unicodeScalars.filter { allowedChars.contains($0) })
+    }
+    
+    func formatNameInput(_ value: String) -> String {
+        let allowedChars = CharacterSet.letters.union(.decimalDigits).union(.whitespaces).union(CharacterSet(charactersIn: "-"))
+        return String(value.unicodeScalars.filter { allowedChars.contains($0) })
     }
 
     func formatZipcodeInput(_ value: String) -> String {
@@ -299,11 +343,41 @@ struct OrgSignUpView: View {
     func formatPhoneInput(_ value: String) -> String {
         let digits = value.filter { $0.isNumber }
         let limited = String(digits.prefix(10))
+        
+
+        switch limited.count {
+        case 0:
+            return ""
+        case 1...3:
+            return "(\(limited)"
+        case 4...6:
+            let area = limited.prefix(3)
+            let middle = limited.dropFirst(3)
+            return "(\(area)) \(middle)"
+        default:
+            let area = limited.prefix(3)
+            let middle = limited.dropFirst(3).prefix(3)
+            let last = limited.dropFirst(6)
+            return "(\(area)) \(middle)-\(last)"
+        }
+    }
+    
+    func formatAddressInput(_ value: String) -> String {
+        let allowedChars = CharacterSet.letters.union(.decimalDigits).union(.whitespaces).union(CharacterSet(charactersIn: "-"))
+        return String(value.unicodeScalars.filter { allowedChars.contains($0) })
+    }
+    
+    func formatCityInput(_ value: String) -> String {
+        let allowedChars = CharacterSet.letters.union(.whitespaces).union(CharacterSet(charactersIn: "-"))
+        return String(value.unicodeScalars.filter { allowedChars.contains($0) })
+    }
+
+    func formatSSNInput(_ value: String) -> String {
+        let digits = value.filter { $0.isNumber }
+        let limited = String(digits.prefix(9))
         var result = ""
         for (index, char) in limited.enumerated() {
-            if index == 3 || index == 6 {
-                result.append("-")
-            }
+            if index == 3 || index == 5 { result.append("-") }
             result.append(char)
         }
         return result
@@ -321,15 +395,26 @@ struct OrgSignUpView: View {
         }
         return result
     }
+    
+    func formatOrgCodeInput(_ value: String) -> String {
+        let digits = value.filter { $0.isNumber }
+        return String(digits.prefix(12))
+    }
 
     func formatTaxIDInput(_ value: String) -> String {
-        let digits = value.filter { $0.isNumber }
-        return String(digits.prefix(9))
+        let allowedChars = CharacterSet.letters.union(.decimalDigits).union(.whitespaces).union(CharacterSet(charactersIn: "-_."))
+        let filtered = String(value.unicodeScalars.filter { allowedChars.contains($0) })
+        return String(filtered.prefix(15))
     }
 
     func formatNPIInput(_ value: String) -> String {
         let digits = value.filter { $0.isNumber }
         return String(digits.prefix(10))
+    }
+    
+    func formatBureauInput(_ value: String) -> String {
+        let allowedChars = CharacterSet.letters
+        return String(value.unicodeScalars.filter { allowedChars.contains($0) })
     }
 
     func submit() {
@@ -365,6 +450,9 @@ struct OrgSignUpView: View {
         if !Validator.isNonEmpty(username) {
             usernameError = "Representative Username is required."
         }
+        if !Validator.isValidUsername(username) {
+            usernameError = "Username may only contain one special character (_ and @)"
+        }
         if !Validator.isNonEmpty(address) {
             addressError = "Organization Address is required."
         }
@@ -378,6 +466,9 @@ struct OrgSignUpView: View {
             zipError = "Zipcode is required."
         } else if !Validator.isValidZipCode(zipcode) {
             zipError = "Zipcode must be 5 digits."
+        }
+        if !Validator.isNonEmpty(phone) {
+            phoneError = "Phone number is required."
         }
         
         if let selection = specialty {
@@ -424,7 +515,7 @@ struct OrgSignUpView: View {
 
         let anyError = [
             orgNameError, emailError, passwordError, usernameError,
-            addressError, cityError, stateError, zipError,
+            addressError, cityError, stateError, zipError, phoneError,
             npiError, feinError, taxIDError, orgCodeError, bureauError, stateDeptIDError
         ].contains { $0 != nil }
 

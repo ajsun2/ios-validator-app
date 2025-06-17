@@ -12,10 +12,18 @@ struct Validator {
     static func isNonEmpty(_ text: String?) -> Bool {
         return !(text ?? "").isEmpty
     }
-
+    
     static func isValidEmail(_ email: String) -> Bool {
-        let pattern = #"^[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$"#
-        return email.range(of: pattern, options: .regularExpression) != nil
+        guard email.contains("@") else { return false }
+
+        let validSuffixes = [".com", ".edu", ".org"]
+        return validSuffixes.contains { email.lowercased().hasSuffix($0) }
+    }
+    
+    static func isValidUsername(_ username: String) -> Bool {
+        let underscoreCount = username.filter { $0 == "_" }.count
+        let atCount = username.filter { $0 == "@" }.count
+        return underscoreCount <= 1 && atCount <= 1
     }
 
     static func isValidPassword(_ password: String) -> Bool {
@@ -25,7 +33,7 @@ struct Validator {
     }
     
     static func isValidPhone(_ ssn: String) -> Bool {
-        let pattern = #"^\d{3}-\d{3}-\d{4}$"#
+        let pattern = #"^\(\d{3}\) \d{3}-\d{4}$"#
         return ssn.range(of: pattern, options: .regularExpression) != nil
     }
 
