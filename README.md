@@ -49,9 +49,11 @@ Built off Auth0 Swift Samples
   - **Organization code** and **bureau name** in federal org
  
 ### Week 11 (6/10-6/16):
-- TODO: Final detail check to ensure instructions and feedback is thorough
+- Created requirements doc for form fields to ensure consistency across all platforms
+- Implemented input limitations for all fields (ie. only accepting valid characters, up to max length) and auto formatting (for fein, ssn, phone)
+- Final detail check to ensure instructions and feedback is thorough
 - TODO: Update README to include app set up instructions
-- TODO: Phone number validation -- Check for valid area code? Allow foreign numbers?
-- TODO: Ensure data is stored correctly in the shared database between all validator app platforms
+
+TODO: Ensure data is stored correctly in the shared database between all validator app platforms
 
 ###
