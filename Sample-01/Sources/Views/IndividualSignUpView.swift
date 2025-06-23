@@ -132,7 +132,7 @@ struct IndividualSignUpView: View {
                                 errorText(error)
                             }
 
-                            labeledField(label: "Date of Birth", isRequired: false) {
+                            labeledField(label: "Date of Birth", isRequired: true) {
                                 DatePicker("", selection: $birthday, displayedComponents: .date)
                                     .datePickerStyle(.compact)
                             }

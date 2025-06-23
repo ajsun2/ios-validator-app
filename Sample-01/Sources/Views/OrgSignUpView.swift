@@ -18,6 +18,7 @@ struct OrgSignUpView: View {
             "NM", "NY", "NC", "ND", "OH", "OK", "OR", "PA", "RI", "SC",
             "SD", "TN", "TX", "UT", "VT", "VA", "WA", "WV", "WI", "WY"
         ]
+    let excludedStates: Set<String> = ["WA", "SD", "TX", "WY", "NV", "FL", "AL"]
     
     @State private var zipcode = ""
     @State private var taxID = ""
@@ -77,7 +78,7 @@ struct OrgSignUpView: View {
 
                             if let error = orgNameError { errorText(error) }
                         }
-
+                        
                         labeledField(label: "Organization Type", isRequired: true) {
                             Picker("Select type", selection: $specialty) {
                                 Text("Healthcare (For-Profit)").tag(Optional(Specialty.healthcareFP))
@@ -93,124 +94,7 @@ struct OrgSignUpView: View {
                                 clearFieldErrors()
                             }
                         }
-
-                        if let selection = specialty {
-                            switch selection {
-                            case .healthcareFP, .healthcareNP:
-                                labeledField(label: "National Provider Identifier (NPI)", isRequired: true) {
-                                    TextField("", text: $npi)
-                                        .textFieldStyle(RoundedBorderTextFieldStyle())
-                                        .onChange(of: npi) { newValue in
-                                            npi = formatNPIInput(newValue)
-                                            npiError = nil
-                                        }
-                                }
-                                if let error = npiError { errorText(error) }
-
-                                labeledField(label: "Federal Employer Identification Number (FEIN)", isRequired: true) {
-                                    TextField("", text: $fein)
-                                        .textFieldStyle(RoundedBorderTextFieldStyle())
-                                        .onChange(of: fein) { newValue in
-                                            fein = formatFEINInput(newValue)
-                                            feinError = nil
-                                        }
-                                }
-                                if let error = feinError { errorText(error) }
-
-                                labeledField(label: "State Tax ID", isRequired: true) {
-                                    TextField("", text: $taxID)
-                                        .textFieldStyle(RoundedBorderTextFieldStyle())
-                                        .onChange(of: taxID) { newValue in
-                                            taxID = formatTaxIDInput(newValue)
-                                            taxIDError = nil
-                                        }
-                                }
-                                if let error = taxIDError { errorText(error) }
-
-                            case .federalAgency:
-                                labeledField(label: "Organization Code", isRequired: true) {
-                                    TextField("", text: $orgCode)
-                                        .textFieldStyle(RoundedBorderTextFieldStyle())
-                                        .onChange(of: orgCode) { newValue in
-                                            orgCode = formatOrgCodeInput(newValue)
-                                            orgCodeError = nil }
-                                }
-                                if let error = orgCodeError { errorText(error) }
-
-                                labeledField(label: "Bureau Name", isRequired: true) {
-                                    TextField("", text: $bureau)
-                                        .textFieldStyle(RoundedBorderTextFieldStyle())
-                                        .onChange(of: bureau) { newValue in
-                                            bureau = formatBureauInput(newValue)
-                                            bureauError = nil }
-                                }
-                                if let error = bureauError { errorText(error) }
-
-                            case .stateAgency, .municipalAgency:
-                                labeledField(label: "Federal Employer Identification Number (FEIN)", isRequired: true) {
-                                    TextField("", text: $fein)
-                                        .textFieldStyle(RoundedBorderTextFieldStyle())
-                                        .onChange(of: fein) { newValue in
-                                            fein = formatFEINInput(newValue)
-                                            feinError = nil
-                                        }
-                                }
-                                if let error = feinError { errorText(error) }
-
-                                labeledField(label: "State Department ID", isRequired: true) {
-                                    TextField("", text: $stateDeptID)
-                                        .textFieldStyle(RoundedBorderTextFieldStyle())
-                                        .onChange(of: stateDeptID) { _ in stateDeptIDError = nil }
-                                }
-                                if let error = stateDeptIDError { errorText(error) }
-
-                            case .commercialFP, .otherNP:
-                                labeledField(label: "Federal Employer Identification Number (FEIN)", isRequired: true) {
-                                    TextField("", text: $fein)
-                                        .textFieldStyle(RoundedBorderTextFieldStyle())
-                                        .onChange(of: fein) { newValue in fein = formatFEINInput(newValue) }
-                                    // add error notification
-                                    if let error = feinError { errorText(error) }
-                                }
-                            }
-                        }
-
-                        labeledField(label: "Organization Email", isRequired: true) {
-                            TextField("", text: $email).onChange(of: email) { _ in emailError = nil }
-                                .textFieldStyle(RoundedBorderTextFieldStyle())
-                                .autocapitalization(.none)
-                                .onChange(of: email) { newValue in
-                                    email = formatEmailInput(newValue)}
-                            if let error = emailError { errorText(error) }
-                        }
-
-                        labeledField(label: "Password", isRequired: true) {
-                            VStack(alignment: .leading, spacing: 4) {
-                                SecureField("", text: $password).onChange(of: password) { _ in passwordError = nil }
-                                    .textFieldStyle(RoundedBorderTextFieldStyle())
-                                Text("Must be at least 12 characters, include an uppercase, lowercase, number, and special character.")
-                                    .font(.caption)
-                                    .foregroundColor(.gray)
-                            }
-                            if let error = passwordError { errorText(error) }
-                        }
-
-                        labeledField(label: "Representative Username", isRequired: true) {
-                            
-                            VStack(alignment: .leading, spacing: 4) {
-                                TextField("", text: $username).onChange(of: username) { _ in usernameError = nil }
-                                    .textFieldStyle(RoundedBorderTextFieldStyle())
-                                    .onChange(of: username) { newValue in
-                                        username = formatUsernameInput(newValue)}
-                                Text("You may use letters, numbers, and up to one _ or @.")
-                                    .font(.caption)
-                                    .foregroundColor(.gray)
-                            }
-                            
-
-                            if let error = usernameError { errorText(error) }
-                        }
-
+                        
                         labeledField(label: "Organization Address Line 1", isRequired: true) {
                             TextField("", text: $address).onChange(of: address) { _ in addressError = nil }
                                 .textFieldStyle(RoundedBorderTextFieldStyle())
@@ -255,7 +139,7 @@ struct OrgSignUpView: View {
                                 }
                             if let error = zipError { errorText(error) }
                         }
-
+                        
                         labeledField(label: "Organization Phone", isRequired: true) {
                             TextField("", text: $phone)
                                 .textFieldStyle(RoundedBorderTextFieldStyle())
@@ -263,6 +147,197 @@ struct OrgSignUpView: View {
                                     phoneError = nil}
                             if let error = phoneError { errorText(error) }
                         }
+
+
+                        if let selection = specialty {
+                            switch selection {
+                            case .healthcareFP, .healthcareNP:
+                                labeledField(label: "National Provider Identifier (NPI)", isRequired: true) {
+                                    TextField("", text: $npi)
+                                        .textFieldStyle(RoundedBorderTextFieldStyle())
+                                        .onChange(of: npi) { newValue in
+                                            npi = formatNPIInput(newValue)
+                                            npiError = nil
+                                        }
+                                }
+                                if let error = npiError { errorText(error) }
+
+                                labeledField(label: "Federal Employer Identification Number (FEIN)", isRequired: true) {
+                                    TextField("", text: $fein)
+                                        .textFieldStyle(RoundedBorderTextFieldStyle())
+                                        .onChange(of: fein) { newValue in
+                                            fein = formatFEINInput(newValue)
+                                            feinError = nil
+                                        }
+                                }
+                                if let error = feinError { errorText(error) }
+
+                                if let selectedState = state, !excludedStates.contains(selectedState) {
+                                    labeledField(label: "State Tax ID", isRequired: true) {
+                                        TextField("", text: $taxID)
+                                            .textFieldStyle(RoundedBorderTextFieldStyle())
+                                            .onChange(of: taxID) { newValue in
+                                                taxID = formatTaxIDInput(newValue)
+                                                taxIDError = nil
+                                            }
+                                    }
+                                    if let error = taxIDError { errorText(error) }
+                                }
+                                
+//                                labeledField(label: "State Tax ID", isRequired: true) {
+//                                    TextField("", text: $taxID)
+//                                        .textFieldStyle(RoundedBorderTextFieldStyle())
+//                                        .onChange(of: taxID) { newValue in
+//                                            taxID = formatTaxIDInput(newValue)
+//                                            taxIDError = nil
+//                                        }
+//                                }
+//                                if let error = taxIDError { errorText(error) }
+
+                            case .federalAgency:
+                                labeledField(label: "Organization Code", isRequired: true) {
+                                    TextField("", text: $orgCode)
+                                        .textFieldStyle(RoundedBorderTextFieldStyle())
+                                        .onChange(of: orgCode) { newValue in
+                                            orgCode = formatOrgCodeInput(newValue)
+                                            orgCodeError = nil }
+                                }
+                                if let error = orgCodeError { errorText(error) }
+
+                                labeledField(label: "Bureau Name", isRequired: true) {
+                                    TextField("", text: $bureau)
+                                        .textFieldStyle(RoundedBorderTextFieldStyle())
+                                        .onChange(of: bureau) { newValue in
+                                            bureau = formatBureauInput(newValue)
+                                            bureauError = nil }
+                                }
+                                if let error = bureauError { errorText(error) }
+
+                            case .stateAgency, .municipalAgency:
+                                labeledField(label: "Federal Employer Identification Number (FEIN)", isRequired: true) {
+                                    TextField("", text: $fein)
+                                        .textFieldStyle(RoundedBorderTextFieldStyle())
+                                        .onChange(of: fein) { newValue in
+                                            fein = formatFEINInput(newValue)
+                                            feinError = nil
+                                        }
+                                }
+                                if let error = feinError { errorText(error) }
+
+                                labeledField(label: "State Department ID", isRequired: true) {
+                                    TextField("", text: $stateDeptID)
+                                        .textFieldStyle(RoundedBorderTextFieldStyle())
+                                        .onChange(of: stateDeptID) { newValue in
+                                            stateDeptID = formatStateDeptID(newValue)
+                                            stateDeptIDError = nil
+                                        }
+                                }
+                                if let error = stateDeptIDError { errorText(error) }
+
+                            case .commercialFP, .otherNP:
+                                labeledField(label: "Federal Employer Identification Number (FEIN)", isRequired: true) {
+                                    TextField("", text: $fein)
+                                        .textFieldStyle(RoundedBorderTextFieldStyle())
+                                        .onChange(of: fein) { newValue in fein = formatFEINInput(newValue) }
+                                    // add error notification
+                                    if let error = feinError { errorText(error) }
+                                }
+                                if let selectedState = state, !excludedStates.contains(selectedState) {
+                                    labeledField(label: "State Tax ID", isRequired: true) {
+                                        TextField("", text: $taxID)
+                                            .textFieldStyle(RoundedBorderTextFieldStyle())
+                                            .onChange(of: taxID) { newValue in
+                                                taxID = formatTaxIDInput(newValue)
+                                                taxIDError = nil
+                                            }
+                                    }
+                                    if let error = taxIDError { errorText(error) }
+                                }
+                            }
+                        }
+
+                        labeledField(label: "Organization Email", isRequired: true) {
+                            TextField("", text: $email).onChange(of: email) { _ in emailError = nil }
+                                .textFieldStyle(RoundedBorderTextFieldStyle())
+                                .autocapitalization(.none)
+                                .onChange(of: email) { newValue in
+                                    email = formatEmailInput(newValue)}
+                            if let error = emailError { errorText(error) }
+                        }
+
+                        labeledField(label: "Password", isRequired: true) {
+                            VStack(alignment: .leading, spacing: 4) {
+                                SecureField("", text: $password).onChange(of: password) { _ in passwordError = nil }
+                                    .textFieldStyle(RoundedBorderTextFieldStyle())
+                                Text("Must be at least 12 characters, include an uppercase, lowercase, number, and special character.")
+                                    .font(.caption)
+                                    .foregroundColor(.gray)
+                            }
+                            if let error = passwordError { errorText(error) }
+                        }
+
+                        labeledField(label: "Representative Username", isRequired: true) {
+                            
+                            VStack(alignment: .leading, spacing: 4) {
+                                TextField("", text: $username).onChange(of: username) { _ in usernameError = nil }
+                                    .textFieldStyle(RoundedBorderTextFieldStyle())
+                                    .onChange(of: username) { newValue in
+                                        username = formatUsernameInput(newValue)}
+                                Text("You may use letters, numbers, and up to one _ or @.")
+                                    .font(.caption)
+                                    .foregroundColor(.gray)
+                            }
+                            
+
+                            if let error = usernameError { errorText(error) }
+                        }
+
+//                        labeledField(label: "Organization Address Line 1", isRequired: true) {
+//                            TextField("", text: $address).onChange(of: address) { _ in addressError = nil }
+//                                .textFieldStyle(RoundedBorderTextFieldStyle())
+//                                .onChange(of: address) { newValue in
+//                                    address = formatAddressInput(newValue)}
+//                            if let error = addressError { errorText(error) }
+//                        }
+//
+//                        labeledField(label: "City", isRequired: true) {
+//                            TextField("", text: $city).onChange(of: city) { _ in cityError = nil }
+//                                .textFieldStyle(RoundedBorderTextFieldStyle())
+//                                .onChange(of: city) { newValue in
+//                                    city = formatCityInput(newValue)}
+//                            if let error = cityError { errorText(error) }
+//                        }
+//
+//                        labeledField(label: "State", isRequired: true) {
+//                            Picker("Select your state", selection: $state) {
+//                                Text("Select a state").tag(Optional<String>.none) // placeholder
+//                                ForEach(states, id: \.self) { stateOption in
+//                                    Text(stateOption).tag(Optional(stateOption))
+//                                }
+//                            }
+//                            .pickerStyle(.menu)
+//                            .foregroundColor(state == nil ? .gray : .primary)
+//                            .onChange(of: state) { _ in
+//                                stateError = nil
+//                            }
+//
+//                            if let error = stateError {
+//                                errorText(error)
+//                            }
+//                        }
+//
+//                        labeledField(label: "Zipcode", isRequired: true) {
+//                            TextField("", text: $zipcode)
+//                                .keyboardType(.numberPad)
+//                                .textFieldStyle(RoundedBorderTextFieldStyle())
+//                                .onChange(of: zipcode) { newValue in
+//                                    zipcode = formatZipcodeInput(newValue)
+//                                    zipError = nil
+//                                }
+//                            if let error = zipError { errorText(error) }
+//                        }
+
+                        
                         
                         if let error = validationError {
                             Text(error)
@@ -381,6 +456,11 @@ struct OrgSignUpView: View {
             result.append(char)
         }
         return result
+    }
+    func formatStateDeptID(_ value: String) -> String {
+        let allowedChars = CharacterSet.letters.union(.decimalDigits)
+        let filtered = String(value.unicodeScalars.filter { allowedChars.contains($0) })
+        return String(filtered.prefix(10))
     }
 
     func formatFEINInput(_ value: String) -> String {
