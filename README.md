@@ -19,37 +19,37 @@ Validation is enforced at the client side before form submission.
 
 #### Individual Sign-Up 
 
-First*, Middle, Last Name* - Must be alpha only and may contain whitespace and the character '
+    First*, Middle, Last Name* - Must be alpha only and may contain whitespace and the character '
 
-Password* - Must contain at least 12 characters, include an uppercase, lowercase, number, and special characters
+    Password* - Must contain at least 12 characters, include an uppercase, lowercase, number, and special characters
 
-Phone* - Must match (xxx) xxx-xxxx format
+    Phone* - Must match (xxx) xxx-xxxx format
 
-SSN - Must match xxx-xx-xxxx format
+    SSN - Must match xxx-xx-xxxx format
 
-Address* - Must be alphanumeric and may contain whitespace and dashes (-)
+    Address* - Must be alphanumeric and may contain whitespace and dashes (-)
 
-City* - Must be alpha and may contain whitespace and dashes (-)
+    City* - Must be alpha and may contain whitespace and dashes (-)
 
-State* - Should be a drop down menu
+    State* - Should be a drop down menu
 
-Zipcode* — Must be exactly 5 numeric digits.
+    Zipcode* — Must be exactly 5 numeric digits.
 
 #### Organization Sign-Up 
 
-Organization Name — Can be alphanumeric and may contain white and dashes (-)
+    Organization Name — Can be alphanumeric and may contain white and dashes (-)
 
-Representative Username — Must be alphanumeric and may contain at most one special character (_ or @)
+    Representative Username — Must be alphanumeric and may contain at most one special character (_ or @)
 
-Tax ID, FEIN, Bureau Name, NPI, or Department ID — Required based on organization type.
+    Tax ID, FEIN, Bureau Name, NPI, or Department ID — Required based on organization type.
 
-##### Healthcare
+    ##### Healthcare
 
-##### Government
+    ##### Government
 
-Zipcode and Address Fields — Same validation as individual sign-up.
+    Zipcode and Address Fields — Same validation as individual sign-up.
 
-Email, Password, and Contact Information — Required and validated for correct format.
+    Email, Password, and Contact Information — Required and validated for correct format.
 
 ### Address Verification
 The app verifies the provided address with the backend address validation endpoint before allowing registration completion.
