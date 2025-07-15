@@ -55,7 +55,7 @@ Validation is enforced at the client side before form submission.
 
 - Password* - Must contain at least 12 characters, include an uppercase, lowercase, number, and special characters
 
-- Representative Username ** \* ** — Must be alphanumeric and may contain at most one special character (_ or @)
+- Representative Username ^* — Must be alphanumeric and may contain at most one special character (_ or @)
 
 **\* Required fields**
 
