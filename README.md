@@ -58,7 +58,7 @@ Validation is enforced at the client side before form submission.
 
 - Representative Usernam*e — Must be alphanumeric and may contain at most one special character (_ or @)
 
-    * Required fields
+* Required fields
 
 Healthcare (Non-Profit and For-Profit)
 - NPI - Must be 10 digits
