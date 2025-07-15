@@ -9,6 +9,10 @@ Built off Auth0 Swift Samples
 
 ## Configuration
 
+### 0. Open the project on Xcode
+
+Ensure `Sample-01` is set as the root directory when opening the project in Xcode.
+
 ### 1. Configure the callback and logout URLs
 
 Go to the settings page of your [Auth0 application](https://manage.auth0.com/#/applications/) and add the following URLs to **Allowed Callback URLs** and **Allowed Logout URLs**, depending on the app target you want to run –either **SwiftSample (iOS)** or **SwiftSample (macOS)**.
@@ -51,3 +55,14 @@ Rename the `Auth0.plist.example` file to `Auth0.plist`, and replace the `{CLIENT
 </dict>
 </plist>
 ```
+
+## Navigating the Project Structure
+
+### Sources/Network
+Contains network-related logic, including address validation and form submission.
+
+### Sources/Views
+Contains app views and user interface components.
+
+### Sources/Supporting Files
+Contains supporting files such as `Validator.swift`, which handles client-side field validation logic.
