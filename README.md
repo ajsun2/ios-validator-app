@@ -35,7 +35,7 @@ Validation is enforced at the client side before form submission.
 
 - Zipcode* — Must be exactly 5 numeric digits.
 
-    /* Required fields
+**\* Required fields**
 
 #### Organization Sign-Up 
 
@@ -55,9 +55,9 @@ Validation is enforced at the client side before form submission.
 
 - Password* - Must contain at least 12 characters, include an uppercase, lowercase, number, and special characters
 
-- Representative Usernam*e — Must be alphanumeric and may contain at most one special character (_ or @)
+- Representative Username ** \* ** — Must be alphanumeric and may contain at most one special character (_ or @)
 
-\* Required fields
+**\* Required fields**
 
 Healthcare (Non-Profit and For-Profit)
 - NPI - Must be 10 digits
