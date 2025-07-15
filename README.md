@@ -7,6 +7,57 @@ Built off Auth0 Swift Samples
 - iOS 15+ / macOS 11+
 - Xcode 14.x / 15.x
 
+## App Features
+### User Registration
+Supports both Individual and Organization sign-up flows, each with distinct required fields and validation rules.
+
+### Post-Signup Navigation
+Upon successful registration, the app redirects the user to the Main view.
+
+### Field Validation
+Validation is enforced at the client side before form submission.
+
+#### Individual Sign-Up 
+
+First*, Middle, Last Name* - Must be alpha only and may contain whitespace and the character '
+
+Password* - Must contain at least 12 characters, include an uppercase, lowercase, number, and special characters
+
+Phone* - Must match (xxx) xxx-xxxx format
+
+SSN - Must match xxx-xx-xxxx format
+
+Address* - Must be alphanumeric and may contain whitespace and dashes (-)
+
+City* - Must be alpha and may contain whitespace and dashes (-)
+
+State* - Should be a drop down menu
+
+Zipcode* — Must be exactly 5 numeric digits.
+
+#### Organization Sign-Up 
+
+Organization Name — Can be alphanumeric and may contain white and dashes (-)
+
+Representative Username — Must be alphanumeric and may contain at most one special character (_ or @)
+
+Tax ID, FEIN, Bureau Name, NPI, or Department ID — Required based on organization type.
+
+##### Healthcare
+
+##### Government
+
+Zipcode and Address Fields — Same validation as individual sign-up.
+
+Email, Password, and Contact Information — Required and validated for correct format.
+
+### Address Verification
+The app verifies the provided address with the backend address validation endpoint before allowing registration completion.
+
+### Error Handling
+Inline error messages are displayed next to fields when validation fails or if backend submission encounters an error.
+
+
 ## Configuration
 
 ### 0. Open the project on Xcode
