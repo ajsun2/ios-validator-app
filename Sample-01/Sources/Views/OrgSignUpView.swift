@@ -18,7 +18,7 @@ struct OrgSignUpView: View {
             "NM", "NY", "NC", "ND", "OH", "OK", "OR", "PA", "RI", "SC",
             "SD", "TN", "TX", "UT", "VT", "VA", "WA", "WV", "WI", "WY"
         ]
-    let excludedStates: Set<String> = ["WA", "SD", "TX", "WY", "NV", "FL", "AL"]
+    let excludedStates: Set<String> = ["WA", "SD", "TX", "WY", "NV", "FL", "AK"]
     
     @State private var zipcode = ""
     @State private var taxID = ""
@@ -95,7 +95,7 @@ struct OrgSignUpView: View {
                             }
                         }
                         
-                        labeledField(label: "Organization Address Line 1", isRequired: true) {
+                        labeledField(label: "Organization Address Line", isRequired: true) {
                             TextField("", text: $address).onChange(of: address) { _ in addressError = nil }
                                 .textFieldStyle(RoundedBorderTextFieldStyle())
                                 .onChange(of: address) { newValue in
@@ -493,7 +493,7 @@ struct OrgSignUpView: View {
     }
     
     func formatBureauInput(_ value: String) -> String {
-        let allowedChars = CharacterSet.letters
+        let allowedChars = CharacterSet.letters.union(.whitespaces)
         return String(value.unicodeScalars.filter { allowedChars.contains($0) })
     }
 
