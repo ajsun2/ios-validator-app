@@ -55,7 +55,7 @@ Validation is enforced at the client side before form submission.
 
 - Password* - Must contain at least 12 characters, include an uppercase, lowercase, number, and special characters
 
-- Representative Username ^* — Must be alphanumeric and may contain at most one special character (_ or @)
+- Representative Username* — Must be alphanumeric and may contain at most one special character (_ or @)
 
 **\* Required fields**
 
@@ -64,7 +64,9 @@ Healthcare (Non-Profit and For-Profit)
 
 - FEIN - Must be 9 digits of xx-xxxxxxx format
   
-- State Tax ID - Can be alphanumeric and may contain the following characters - _ and . (Note: this field does not apply to WA, SD, TX, WY, NV, FL, AK)
+- State Tax ID - Can be alphanumeric and may contain the following characters - _ and .
+
+  **Note:** this field does not apply to WA, SD, TX, WY, NV, FL, AK)
 
 Commerical (For-Profit)
 - NPI - Must match xxxxxxxxxx format, 10 digits long
