@@ -35,21 +35,54 @@ Validation is enforced at the client side before form submission.
 
     Zipcode* — Must be exactly 5 numeric digits.
 
+
+    * Required fields
+
 #### Organization Sign-Up 
 
     Organization Name — Can be alphanumeric and may contain white and dashes (-)
 
+    Organization Type - Drop down style <img width="312" height="318" alt="Screenshot 2025-07-15 at 12 38 33 PM" src="https://github.com/user-attachments/assets/c0c99acf-05b8-49e9-8e38-a40c8465d10d" />
+
+    Address* - Must be alphanumeric and may contain whitespace and dashes (-)
+
+    City* - Must be alpha and may contain whitespace and dashes (-)
+
+    State* - Should be a drop down menu
+
+    Zipcode* — Must be exactly 5 numeric digits.
+
+    Organization Phone* - Must match (xxx) xxx-xxxx format
+
+    Password* - Must contain at least 12 characters, include an uppercase, lowercase, number, and special characters
+
     Representative Username — Must be alphanumeric and may contain at most one special character (_ or @)
 
-    Tax ID, FEIN, Bureau Name, NPI, or Department ID — Required based on organization type.
 
-    ##### Healthcare
+    * Required fields
 
-    ##### Government
+Healthcare (Non-Profit and For-Profit)
+##### NPI - Must match xxxxxxxxxx format, 10 digits long
+##### FEIN - Must match xx-xxxxxxx format, 9 digits long
+##### State Tax ID - Can be alphanumeric and may contain the following characters - _ and . (Note: this field does not apply to WA, SD, TX, WY, NV, FL, AK)
 
-    Zipcode and Address Fields — Same validation as individual sign-up.
+Commerical (For-Profit)
+##### NPI - Must match xxxxxxxxxx format, 10 digits long
+##### FEIN - Must match xx-xxxxxxx format, 9 digits long
+##### State Tax ID - Can be alphanumeric and may contain the following characters - _ and . (Note: this field does not apply to WA, SD, TX, WY, NV, FL, AK)
 
-    Email, Password, and Contact Information — Required and validated for correct format.
+Federal Government
+##### Organization Code - Up to 12 digits
+##### Bureau Name - Must be alpha only and may contain whitespace
+
+State and Municipal Government
+##### FEIN - Must match xx-xxxxxxx format, 9 digits long
+##### State Department ID - Up to 10 digits
+
+Other (Non-Profit)
+##### NPI - Must match xxxxxxxxxx format, 10 digits long
+##### FEIN - Must match xx-xxxxxxx format, 9 digits long
+##### State Tax ID - Can be alphanumeric and may contain the following characters - _ and . (Note: this field does not apply to WA, SD, TX, WY, NV, FL, AK)
 
 ### Address Verification
 The app verifies the provided address with the backend address validation endpoint before allowing registration completion.
