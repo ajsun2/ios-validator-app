@@ -22,16 +22,17 @@ Go to the settings page of your [Auth0 application](https://manage.auth0.com/#/a
 ```text
 https://YOUR_AUTH0_DOMAIN/ios/YOUR_BUNDLE_IDENTIFIER/callback,
 YOUR_BUNDLE_IDENTIFIER://YOUR_AUTH0_DOMAIN/ios/YOUR_BUNDLE_IDENTIFIER/callback
+
 ```
 
 <details>
   <summary>Example</summary>
 
-If your iOS bundle identifier were `com.example.MyApp` and your Auth0 Domain were `example.us.auth0.com`, then this value would be:
+If your iOS bundle identifier were `com.auth0.samples.SwiftSample` and your Auth0 Domain were `kevin-chen-development.us.auth0.com`, then this value would be:
 
 ```text
-https://example.us.auth0.com/ios/com.example.MyApp/callback,
-com.example.MyApp://example.us.auth0.com/ios/com.example.MyApp/callback
+https://kevin-chen-development.us.auth0.com/ios/com.auth0.samples.SwiftSample/callback,
+com.auth0.samples.SwiftSample://kevin-chen-development.us.auth0.com/ios/com.auth0.samples.SwiftSample/callback
 ```
 </details>
 
