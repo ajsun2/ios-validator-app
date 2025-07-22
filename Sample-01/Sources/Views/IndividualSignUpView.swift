@@ -7,6 +7,7 @@ struct IndividualSignUpView: View {
     @State private var firstName = ""
     @State private var middleName = ""
     @State private var lastName = ""
+    @State private var specialAuth: String? = nil
     @State private var phone = ""
     @State private var ssn = ""
     @State private var birthday = Date()
@@ -22,12 +23,16 @@ struct IndividualSignUpView: View {
             "NM", "NY", "NC", "ND", "OH", "OK", "OR", "PA", "RI", "SC",
             "SD", "TN", "TX", "UT", "VT", "VA", "WA", "WV", "WI", "WY"
         ]
+    
+    let specialties = ["Healthcare", "Government", "Commerical"]
+    
     @State private var zipcode = ""
 
     @State private var emailError: String?
     @State private var passwordError: String?
     @State private var firstNameError: String?
     @State private var lastNameError: String?
+    @State private var specialAuthError: String?
     @State private var addressError: String?
     @State private var cityError: String?
     @State private var stateError: String?
@@ -108,6 +113,33 @@ struct IndividualSignUpView: View {
                             if let error = lastNameError {
                                 errorText(error)
                             }
+                            
+                            labeledField(label: "Specialty authorization", isRequired: false) {
+                                Picker("Select your specialty", selection: $specialAuth) {
+                                    Text("Select a specialty").tag(Optional<String>.none) // placeholder
+                                    ForEach(specialties, id: \.self) { stateOption in
+                                        Text(stateOption).tag(Optional(stateOption))
+                                    }
+                                }
+                                .pickerStyle(.menu)
+                                .foregroundColor(state == nil ? .gray : .primary)
+                                .onChange(of: state) { _ in
+                                    stateError = nil
+                                }
+                                    
+
+                                if let error = specialAuthError {
+                                    errorText(error)
+                                }
+//                            }
+//                            labeledField(label: "State", isRequired: true) {
+//                                TextField("", text: $state)
+//                                    .textFieldStyle(RoundedBorderTextFieldStyle())
+//                            }
+//                            if let error = stateError {
+//                                errorText(error)
+                            }
+
 
                             labeledField(label: "Phone number", isRequired: true) {
                                 //not required on web app, but get backend error if set to false
@@ -296,7 +328,7 @@ struct IndividualSignUpView: View {
 
     func submit() {
         emailError = nil; passwordError = nil; firstNameError = nil
-        lastNameError = nil; addressError = nil; cityError = nil
+        lastNameError = nil; specialAuthError = nil; addressError = nil; cityError = nil
         stateError = nil; zipError = nil; phoneError = nil; ssnError = nil
 
         if !Validator.isNonEmpty(email) {
@@ -359,7 +391,7 @@ struct IndividualSignUpView: View {
                 "first_name": firstName,
                 "middle_name": middleName,
                 "last_name": lastName,
-                "specialty_auth": "none",
+                "specialty_auth": specialAuth ?? "",
                 "phone": phone,
                 "ssn": ssn,
                 "date_of_birth": birthdayString,
